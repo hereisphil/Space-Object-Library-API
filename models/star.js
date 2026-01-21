@@ -16,6 +16,8 @@ module.exports = (sequelize, DataTypes) => {
     Star.init(
         {
             name: DataTypes.STRING,
+            size: DataTypes.INTEGER,
+            description: DataTypes.TEXT,
         },
         {
             sequelize,
