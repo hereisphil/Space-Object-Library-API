@@ -22,5 +22,5 @@ if [ $# -eq 1 ]; then
 else
   # Just list the container IDs
   cid="$(docker ps | grep "wdv442-mysql" | awk '{print $1}')"
-  docker exec -it $cid /bin/bash
+  docker exec -it $cid mysql -uroot -p
 fi
