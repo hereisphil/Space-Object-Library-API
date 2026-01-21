@@ -1,8 +1,10 @@
-const { Star } = require("../models");
+const { Star, Galaxy } = require("../models");
 
 // Show all resources
 const index = async (req, res) => {
-    const stars = await Star.findAll();
+    const stars = await Star.findAll({
+        include: [Galaxy],
+    });
     res.status(200).json(stars);
 };
 
