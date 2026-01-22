@@ -2,14 +2,12 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class Planet extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
         static associate(models) {
-            // define association here
-            models.Planet.belongsTo(models.Star);
+            models.Planet.belongsToMany(models.Star, {
+                through: models.StarsPlanets,
+                foreignKey: "planetId",
+                otherKey: "starId",
+            });
         }
     }
     Planet.init(
@@ -19,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
             size: DataTypes.INTEGER,
             isGasGiant: DataTypes.BOOLEAN,
             description: DataTypes.TEXT,
-            starId: DataTypes.INTEGER,
         },
         {
             sequelize,
