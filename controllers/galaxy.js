@@ -9,6 +9,7 @@ const index = async (req, res) => {
 // Show a single resource
 const show = async (req, res) => {
     const galaxy = await Galaxy.findByPk(req.params.id);
+    if (!galaxy) return res.status(404).json({ message: "Galaxy not found" });
     const stars = await galaxy.getStars();
     res.status(200).json({ galaxy, stars });
 };
