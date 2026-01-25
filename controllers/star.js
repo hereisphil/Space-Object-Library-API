@@ -11,6 +11,7 @@ const index = async (req, res) => {
 // Show a single resource
 const show = async (req, res) => {
     const star = await Star.findByPk(req.params.id);
+    if (!star) return res.status(404).json({ message: "Star not found" });
     const planets = await star.getPlanets();
     res.status(200).json({ star, planets });
 };
