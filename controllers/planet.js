@@ -44,5 +44,41 @@ const remove = async (req, res) => {
     res.status(204).json(result);
 };
 
+/* -------------------------------------------------------------------------- */
+/*                    Add Star to Planet (Many-to-Many)                    */
+/* -------------------------------------------------------------------------- */
+// POST /planets/:id/stars
+const addStar = async (req, res) => {
+    try {
+        // Extract the request parameter and body
+        const { id } = req.params;
+        if (!id)
+            return res
+                .status(404)
+                .json({ message: "Resend request with a Planet Id" });
+        const { starIds } = req.body;
+        if (!starIds)
+            return res
+                .status(404)
+                .json({ message: "Resend request with Star Id(s)" });
+
+        // Look for the planet
+        const updatedPlanet = await Planet.findByPk(id);
+        if (!planet)
+            return res
+                .sendStatus(404)
+                .json({ message: `No planet found with ID: ${id} ` });
+
+        // try to update the planet
+        await updatedPlanet.addStars(starIds);
+
+        // get the update to return
+        const updated = await Planet.findByPk(id, { include: Star });
+        return res.status(200).json(updated);
+    } catch (error) {
+        return res.status(500);
+    }
+};
+
 // Export all controller actions
-module.exports = { index, show, create, update, remove };
+module.exports = { index, show, create, update, remove, addStar };
