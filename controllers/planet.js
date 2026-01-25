@@ -11,7 +11,7 @@ const index = async (req, res) => {
 // Show resource
 const show = async (req, res) => {
     const planet = await Planet.findByPk(req.params.id);
-    const star = await planet.getStar();
+    const star = await planet.getStars();
     // Respond with a single object and 2xx code
     res.status(200).json({ planet, star });
 };
@@ -47,38 +47,23 @@ const remove = async (req, res) => {
 /* -------------------------------------------------------------------------- */
 /*                    Add Star to Planet (Many-to-Many)                    */
 /* -------------------------------------------------------------------------- */
-// POST /planets/:id/stars
-const addStar = async (req, res) => {
+const addOneStar = async (req, res) => {
     try {
-        // Extract the request parameter and body
-        const { id } = req.params;
-        if (!id)
-            return res
-                .status(404)
-                .json({ message: "Resend request with a Planet Id" });
-        const { starIds } = req.body;
-        if (!starIds)
-            return res
-                .status(404)
-                .json({ message: "Resend request with Star Id(s)" });
+        const { id, starId } = req.params;
 
-        // Look for the planet
-        const updatedPlanet = await Planet.findByPk(id);
+        const planet = await Planet.findByPk(id);
         if (!planet)
-            return res
-                .sendStatus(404)
-                .json({ message: `No planet found with ID: ${id} ` });
+            return res.status(404).json({ message: `No planet ${id}` });
 
-        // try to update the planet
-        await updatedPlanet.addStars(starIds);
+        await planet.addStar(Number(starId));
 
-        // get the update to return
         const updated = await Planet.findByPk(id, { include: Star });
         return res.status(200).json(updated);
-    } catch (error) {
-        return res.status(500);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
     }
 };
 
 // Export all controller actions
-module.exports = { index, show, create, update, remove, addStar };
+module.exports = { index, show, create, update, remove, addOneStar };
