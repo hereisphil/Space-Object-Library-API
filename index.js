@@ -1,18 +1,28 @@
 // Load in our Express framework
 const express = require(`express`);
 
+const twig = require("twig");
+
 // Create a new Express instance called "app"
 const app = express();
 
 // allow JSON body requests
 app.use(express.json());
 
+app.set("view engine", twig);
+app.set("twig options", {
+    allowAsync: true,
+    strict_variables: false,
+});
+app.set("views", __dirname + "/templates");
+
 // Load in our RESTful routers
 const routers = require("./routers/index.js");
 
 // Home page welcome middleware
 app.get("/", (_req, res) => {
-    res.status(200).send("Welcome to Star Tracker Library");
+    // res.status(200).send("Welcome to Star Tracker Library");
+    res.render("views/index.html.twig");
 });
 
 // Register our RESTful routers with our "app"
