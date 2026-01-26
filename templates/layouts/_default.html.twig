@@ -6,10 +6,10 @@
         <title>ASL - Twig Engine</title>
     </head>
     <body>
-        <header></header>
+        {% include "/partials/_header.html.twig" %}
         <main id="main">
             {% block main %}{% endblock %}
         </main>
-        <footer></footer>
+        {% include "/partials/_footer.html.twig" %}
     </body>
 </html>
