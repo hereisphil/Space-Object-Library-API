@@ -22,7 +22,14 @@ const routers = require("./routers/index.js");
 // Home page welcome middleware
 app.get("/", (_req, res) => {
     // res.status(200).send("Welcome to Star Tracker Library");
-    res.render("views/index.html.twig");
+    res.render("views/index.html.twig", {
+        fname: "Phillip",
+        lname: "Cantu",
+        contacts: [
+            { fname: "Joe", lname: "Dirt" },
+            { fname: "Jane", lname: "Dirt" },
+        ],
+    });
 });
 
 // Register our RESTful routers with our "app"

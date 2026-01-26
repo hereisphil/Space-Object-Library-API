@@ -1,1 +1,8 @@
 <h1>Hello World!</h1>
+<p>Welcome {{ fname }} {{ lname }}!</p>
+
+<ul>
+    {% for contact in contacts %}
+    <li>{{contact.fname}} {{contact.lname}}</li>
+    {% endfor %}
+</ul>
