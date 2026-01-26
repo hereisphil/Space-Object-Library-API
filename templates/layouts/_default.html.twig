@@ -47,6 +47,38 @@
             a:hover {
                 text-decoration: underline;
             }
+
+            /* Action icon base */
+            .actions a {
+                color: #475569;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s ease;
+            }
+
+            /* View (eye) hover */
+            .actions a.view:hover {
+                color: #2563eb;
+                transform: scale(1.15);
+            }
+
+            /* Edit hover */
+            .actions a.edit:hover {
+                color: #16a34a;
+                transform: scale(1.15);
+            }
+
+            /* Delete hover */
+            .actions a.delete:hover {
+                color: #ef4444;
+                transform: scale(1.15);
+            }
+
+            /* Smooth hover feel */
+            .actions svg {
+                transition: all 0.2s ease;
+            }
         </style>
     </head>
     <body>
