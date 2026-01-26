@@ -52,8 +52,8 @@ const update = async (req, res) => {
                 id: req.params.id,
             },
         });
-        // Respond with a single resource and 2xx code
-        return res.status(200).json(planet);
+        // return res.status(200).json(planet);
+        return res.redirect(`/planets/${req.params.id}`);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });

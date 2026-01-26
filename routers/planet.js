@@ -18,6 +18,7 @@ router.post(`/`, planetCtlr.create);
 router.get(`/new`, planetCtlr.form);
 router.get(`/:id/edit`, planetCtlr.form);
 router.get(`/:id/delete`, planetCtlr.remove);
+router.post(`/:id`, planetCtlr.update);
 
 // curl http://localhost:3000/planets/3
 router.get(`/:id`, planetCtlr.show);
