@@ -1,35 +1,40 @@
 {% extends "layouts/_default.html.twig" %}
 
 {% block main %}
-    <h1>All Planets</h1>
+    <h1 style="margin-bottom: 1.5rem;">All Planets</h1>
 
-    <table>
-        <thead>
+    <table style="
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 6px;
+        overflow: hidden;
+    ">
+        <thead style="background: #1e293b; color: white;">
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Mass</th>
-                <th>Gas Giant</th>
-                <th>Size</th>
-                <th>Description</th>
-                <th>Created At</th>
-                <th>Updated At</th>
+                <th style="padding: 0.75rem; text-align: left;">ID</th>
+                <th style="padding: 0.75rem; text-align: left;">Name</th>
+                <th style="padding: 0.75rem; text-align: left;">Mass</th>
+                <th style="padding: 0.75rem; text-align: left;">Gas Giant</th>
+                <th style="padding: 0.75rem; text-align: left;">Size</th>
+                <th style="padding: 0.75rem; text-align: left;">Description</th>
+                <th style="padding: 0.75rem; text-align: left;">Created At</th>
+                <th style="padding: 0.75rem; text-align: left;">Updated At</th>
             </tr>
         </thead>
         <tbody>
             {% for planet in planets %}
-            <tr>
-                <td>{{ planet.id }}</td>
-                <td>{{ planet.name }}</td>
-                <td>{{ planet.mass }}</td>
-                <td>{{ planet.isGasGiant ? "Yes" : "No" }}</td>
-                <td>{{ planet.size }}</td>
-                <td>{{ planet.description }}</td>
-                <td>{{ planet.createdAt|date("Y/m/d") }}</td>
-                <td>{{ planet.updatedAt|date("Y/m/d") }}</td>
+            <tr style="border-bottom: 1px solid #e5e7eb;">
+                <td style="padding: 0.75rem;">{{ planet.id }}</td>
+                <td style="padding: 0.75rem; font-weight: bold;">{{ planet.name }}</td>
+                <td style="padding: 0.75rem;">{{ planet.mass }}</td>
+                <td style="padding: 0.75rem;">{{ planet.isGasGiant ? "Yes" : "No" }}</td>
+                <td style="padding: 0.75rem;">{{ planet.size }}</td>
+                <td style="padding: 0.75rem;">{{ planet.description }}</td>
+                <td style="padding: 0.75rem;">{{ planet.createdAt|date("Y/m/d") }}</td>
+                <td style="padding: 0.75rem;">{{ planet.updatedAt|date("Y/m/d") }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}
