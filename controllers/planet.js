@@ -22,7 +22,6 @@ const show = async (req, res) => {
             return res.status(404).json({ message: "Planet not found" });
 
         const star = await planet.getStars();
-        // Respond with a single object and 2xx code
         // return res.status(200).json({ planet, star });
         return res.render("planets/individual.html.twig", { planet });
     } catch (err) {
@@ -35,9 +34,8 @@ const show = async (req, res) => {
 const create = async (req, res) => {
     try {
         const planet = await Planet.create(req.body);
-
         // return res.status(201).json(planet);
-        return res.render("planets/individual.html.twig", { planet });
+        return res.redirect(`/planets/${planet.id}`);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
@@ -68,7 +66,7 @@ const remove = async (req, res) => {
             include: [Star],
         });
         // return res.status(204).json(result);
-        return res.render("planets/index.html.twig", { planets });
+        return res.redirect(`/planets/`);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
