@@ -1,0 +1,48 @@
+{% extends "layouts/_default.html.twig" %}
+
+{% block main %}
+    {% if planet is defined %}
+        <h1 style="margin-bottom: 1.5rem;">Edit Planet {{ planet.name }}</h1>
+        <form action="/planets/{{ planet.id }}" method="POST">
+    {% else %}
+        <h1 style="margin-bottom: 1.5rem;">Create New Planet</h1>
+        <form action="/planets" method="POST">
+    {% endif %}
+
+    {% if planet is defined %}
+        <label for="name">Name: </label><input type="text" name="name" id="name" value="{{ planet.name }}" required />
+    {% else %}
+        <label for="name">Name: </label><input type="text" name="name" id="name" required />
+    {% endif %}
+
+    {% if planet is defined %}
+        <label for="mass">Mass: </label><input type="number" name="mass" id="mass" min="0" max="2147483647" step="1" value="{{ planet.mass}}" required />
+    {% else %}
+        <label for="mass">Mass: </label><input type="number" name="mass" id="mass" min="0" max="2147483647" step="1" required />
+    {% endif %}
+
+    <div id="gas-giant">
+        <label for="isGasGiant">Is Gas Giant: </label>
+        {% if planet is defined %}
+            <input type="checkbox" id="isGasGiant" name="isGasGiant" value="1" {% if planet.isGasGiant %}checked{% endif %} />
+        {% else %}
+            <input type="checkbox" id="isGasGiant" name="isGasGiant" value="1" />
+        {% endif %}
+    </div>
+    
+    {% if planet is defined %}
+        <label for="size">Size: </label><input type="number" name="size" id="size" min="0" max="2147483647" step="1" value="{{ planet.size}}" required />
+    {% else %}
+        <label for="size">Size: </label><input type="number" name="size" id="size" min="0" max="2147483647" step="1" required />
+    {% endif %}
+    
+    {% if planet is defined %}
+        <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" value="{{ planet.description }}" required></textarea>
+    {% else %}
+        <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" required></textarea>
+    {% endif %}
+
+    <button type="submit">Submit</button>
+    </form>
+
+{% endblock %}

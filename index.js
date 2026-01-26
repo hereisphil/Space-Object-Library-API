@@ -7,7 +7,15 @@ const twig = require("twig");
 const app = express();
 
 // allow JSON body requests
-app.use(express.json());
+app.use(
+    express.urlencoded({
+        extended: true,
+        inflate: true,
+        limit: "1mb",
+        parameterLimit: 5000,
+        type: "application/x-www-form-urlencoded",
+    }),
+);
 
 app.set("view engine", twig);
 app.set("twig options", {

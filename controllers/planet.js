@@ -36,8 +36,8 @@ const create = async (req, res) => {
     try {
         const planet = await Planet.create(req.body);
 
-        // Return planet created
-        return res.status(201).json(planet);
+        // return res.status(201).json(planet);
+        return res.render("planets/individual.html.twig", { planet });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
@@ -63,11 +63,12 @@ const update = async (req, res) => {
 // Remove a single resource
 const remove = async (req, res) => {
     try {
-        const result = await Planet.destroy({
-            where: req.params,
+        await Planet.destroy({ where: req.params });
+        const planets = await Planet.findAll({
+            include: [Star],
         });
-        // Respond with a 2xx status code and bool
-        return res.status(204).json(result);
+        // return res.status(204).json(result);
+        return res.render("planets/index.html.twig", { planets });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
@@ -95,5 +96,23 @@ const addOneStar = async (req, res) => {
     }
 };
 
+/* -------------------------------------------------------------------------- */
+/*                           New Form Route for Twig                          */
+/* -------------------------------------------------------------------------- */
+const form = async (req, res) => {
+    try {
+        if (req.params.id) {
+            const planet = await Planet.findByPk(req.params.id);
+            if (!planet) return res.render("planets/form.html.twig");
+            return res.render("planets/form.html.twig", { planet });
+        } else {
+            return res.render("planets/form.html.twig");
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 // Export all controller actions
-module.exports = { index, show, create, update, remove, addOneStar };
+module.exports = { index, show, create, update, remove, addOneStar, form };
