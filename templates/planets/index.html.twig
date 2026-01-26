@@ -2,4 +2,34 @@
 
 {% block main %}
     <h1>All Planets</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mass</th>
+                <th>Gas Giant</th>
+                <th>Size</th>
+                <th>Description</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for planet in planets %}
+            <tr>
+                <td>{{ planet.id }}</td>
+                <td>{{ planet.name }}</td>
+                <td>{{ planet.mass }}</td>
+                <td>{{ planet.isGasGiant ? "Yes" : "No" }}</td>
+                <td>{{ planet.size }}</td>
+                <td>{{ planet.description }}</td>
+                <td>{{ planet.createdAt|date("Y/m/d") }}</td>
+                <td>{{ planet.updatedAt|date("Y/m/d") }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
