@@ -4,7 +4,7 @@
 <ul>
     {% for contact in contacts %}
         {% if contact.age > 21 %}
-            <li>{{contact.fname}} {{contact.lname}}</li>
+            <li>{{contact.fname|upper }} {{contact.lname|lower }}</li>
         {% endif %}
     {% endfor %}
 </ul>
