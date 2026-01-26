@@ -26,8 +26,8 @@ app.get("/", (_req, res) => {
         fname: "Phillip",
         lname: "Cantu",
         contacts: [
-            { fname: "Joe", lname: "Dirt" },
-            { fname: "Jane", lname: "Dirt" },
+            { fname: "Joe", lname: "Dirt", age: 40 },
+            { fname: "Jane", lname: "Dirt", age: 20 },
         ],
     });
 });

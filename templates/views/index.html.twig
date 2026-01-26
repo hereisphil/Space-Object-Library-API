@@ -3,6 +3,8 @@
 
 <ul>
     {% for contact in contacts %}
-    <li>{{contact.fname}} {{contact.lname}}</li>
+        {% if contact.age > 21 %}
+            <li>{{contact.fname}} {{contact.lname}}</li>
+        {% endif %}
     {% endfor %}
 </ul>
