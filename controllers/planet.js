@@ -6,7 +6,8 @@ const index = async (_req, res) => {
         const planets = await Planet.findAll({
             include: [Star],
         });
-        return res.status(200).json(planets);
+        // return res.status(200).json(planets);
+        return res.render("planets/index.html.twig", { planets });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
