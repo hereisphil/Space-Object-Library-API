@@ -23,7 +23,8 @@ const show = async (req, res) => {
 
         const star = await planet.getStars();
         // Respond with a single object and 2xx code
-        return res.status(200).json({ planet, star });
+        // return res.status(200).json({ planet, star });
+        return res.render("planets/individual.html.twig", { planet });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
