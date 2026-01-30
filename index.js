@@ -6,7 +6,7 @@ const twig = require("twig");
 // Create a new Express instance called "app"
 const app = express();
 
-// allow JSON body requests
+// For HTML form POSTs
 app.use(
     express.urlencoded({
         extended: true,
@@ -16,6 +16,9 @@ app.use(
         type: "application/x-www-form-urlencoded",
     }),
 );
+
+// For JSON API requests
+app.use(express.json());
 
 app.set("view engine", twig);
 app.set("twig options", {
