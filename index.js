@@ -20,6 +20,10 @@ app.use(
 // For JSON API requests
 app.use(express.json());
 
+// Add the following TWO lines to enable file uploads
+const fileUpload = require("express-fileupload");
+app.use(fileUpload());
+
 app.set("view engine", twig);
 app.set("twig options", {
     allowAsync: true,
