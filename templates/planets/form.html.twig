@@ -43,14 +43,12 @@
     {% endif %}
 
     {% if planet is defined %}
-        {% if planet.image %}
         <p>Current Image:</p>
         <img
             src="/uploads/planets/{{ planet.image }}"
             alt="{{ planet.name }}"
             style="max-width: 300px; height: auto; border-radius: 8px;"
         />
-        {% endif %}
     {% endif %}
 
     <label for="image">Image:</label>

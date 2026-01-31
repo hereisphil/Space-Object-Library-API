@@ -52,7 +52,10 @@ const show = async (req, res) => {
 /* -------------------------------------------------------------------------- */
 const create = async (req, res) => {
     try {
-        const planet = await Planet.create(req.body);
+        const planet = await Planet.create({
+            ...req.body,
+            image: req.file?.filename ?? null,
+        });
 
         // Use the Express built-in content negotiaion to properly return
         return res.format({
