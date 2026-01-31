@@ -1,10 +1,22 @@
-// Load in our Express framework
 const express = require(`express`);
-
 const twig = require("twig");
-
-// Create a new Express instance called "app"
 const app = express();
+
+/* -------------------------------------------------------------------------- */
+/*                        Using Multer for File Uploads                       */
+/* -------------------------------------------------------------------------- */
+// Multer documentation: https://www.npmjs.com/package/multer
+const multer = require("multer");
+const storage = multer.diskStorage({
+    destination: function (_req, _file, cb) {
+        cb(null, "./public/uploads");
+    },
+    filename: function (_req, file, cb) {
+        const uniqueFilename = Date.now() + "-" + file.originalname;
+        cb(null, uniqueFilename);
+    },
+});
+const upload = multer({ storage });
 
 // For HTML form POSTs
 app.use(
@@ -20,10 +32,6 @@ app.use(
 // For JSON API requests
 app.use(express.json());
 
-// Add the following TWO lines to enable file uploads
-const fileUpload = require("express-fileupload");
-app.use(fileUpload());
-
 app.set("view engine", twig);
 app.set("twig options", {
     allowAsync: true,
@@ -31,12 +39,9 @@ app.set("twig options", {
 });
 app.set("views", __dirname + "/templates");
 
-// Load in our RESTful routers
 const routers = require("./routers/index.js");
-
 // Home page welcome middleware
 app.get("/", (_req, res) => {
-    // res.status(200).send("Welcome to Star Tracker Library");
     res.render("views/index.html.twig", {
         fname: "Phillip",
         lname: "Cantu",
@@ -47,10 +52,28 @@ app.get("/", (_req, res) => {
     });
 });
 
-// Register our RESTful routers with our "app"
 app.use(`/planets`, routers.planet);
 app.use(`/stars`, routers.star);
 app.use(`/galaxies`, routers.galaxy);
+
+/* -------------------------------------------------------------------------- */
+/*                       Multer Upload Route for Testing                      */
+/* -------------------------------------------------------------------------- */
+app.post("/upload", upload.single("file"), (req, res) => {
+    // Make sure a file is being uploaded
+    if (!req.file) {
+        return res.status(400).json({
+            error: "No file received.",
+        });
+    }
+    // Make sure it's only an image file
+    if (!req.file.mimetype.includes("image")) {
+        return res.status(400).json({
+            error: "Only image files are accepted.",
+        });
+    }
+    res.json(req.file);
+});
 
 // 404 Route
 app.all("*", (req, res) => {
@@ -61,7 +84,6 @@ app.all("*", (req, res) => {
     });
 });
 
-// Set our app to listen on port 3000
 app.listen(3000, () => {
     console.log("NodeJS/Express App running on http://localhost:3000");
 });
