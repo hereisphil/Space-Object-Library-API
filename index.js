@@ -62,4 +62,6 @@ app.all("*", (req, res) => {
 });
 
 // Set our app to listen on port 3000
-app.listen(3000);
+app.listen(3000, () => {
+    console.log("NodeJS/Express App running on http://localhost:3000");
+});
