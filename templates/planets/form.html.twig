@@ -3,10 +3,10 @@
 {% block main %}
     {% if planet is defined %}
         <h1 style="margin-bottom: 1.5rem;">Edit Planet {{ planet.name }}</h1>
-        <form action="/planets/{{ planet.id }}" method="POST">
+        <form action="/planets/{{ planet.id }}" method="POST" enctype="multipart/form-data">
     {% else %}
         <h1 style="margin-bottom: 1.5rem;">Create New Planet</h1>
-        <form action="/planets" method="POST">
+        <form action="/planets" method="POST" enctype="multipart/form-data">
     {% endif %}
 
     {% if planet is defined %}
@@ -41,6 +41,20 @@
     {% else %}
         <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" required></textarea>
     {% endif %}
+
+    {% if planet is defined %}
+        {% if planet.image %}
+        <p>Current Image:</p>
+        <img
+            src="/uploads/planets/{{ planet.image }}"
+            alt="{{ planet.name }}"
+            style="max-width: 300px; height: auto; border-radius: 8px;"
+        />
+        {% endif %}
+    {% endif %}
+
+    <label for="image">Image:</label>
+    <input type="file" name="image" id="image" accept="image/*" />
 
     <button type="submit">Submit</button>
     </form>

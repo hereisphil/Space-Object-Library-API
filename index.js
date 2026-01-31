@@ -32,6 +32,9 @@ app.use(
 // For JSON API requests
 app.use(express.json());
 
+// Add the public folder to allow Express to serve it
+app.use(express.static("public"));
+
 app.set("view engine", twig);
 app.set("twig options", {
     allowAsync: true,
