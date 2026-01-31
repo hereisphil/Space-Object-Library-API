@@ -1,0 +1,49 @@
+{% extends "layouts/_default.html.twig" %}
+
+{% block main %}
+    {% if star is defined %}
+        <h1 style="margin-bottom: 1.5rem;">Edit Star {{ star.name }}</h1>
+        <form action="/stars/{{ star.id }}" method="POST" enctype="multipart/form-data">
+    {% else %}
+        <h1 style="margin-bottom: 1.5rem;">Create New Planet</h1>
+        <form action="/stars" method="POST" enctype="multipart/form-data">
+    {% endif %}
+
+    {% if star is defined %}
+        <label for="name">Name: </label><input type="text" name="name" id="name" value="{{ star.name }}" required />
+    {% else %}
+        <label for="name">Name: </label><input type="text" name="name" id="name" required />
+    {% endif %}
+    
+    {% if star is defined %}
+        <label for="size">Size: </label><input type="number" name="size" id="size" min="0" max="2147483647" step="1" value="{{ star.size}}" required />
+    {% else %}
+        <label for="size">Size: </label><input type="number" name="size" id="size" min="0" max="2147483647" step="1" required />
+    {% endif %}
+    
+    {% if star is defined %}
+        <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" required>{{ star.description }}</textarea>
+    {% else %}
+        <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" required></textarea>
+    {% endif %}
+
+    {% if star is defined %}
+    <p style="font-weight: bold;">Current Image:</p>
+        {% if star.image %}
+        <img
+            src="/uploads/stars/{{ star.image }}"
+            alt="{{ star.name }}"
+            style="max-width: 300px; height: auto; border-radius: 8px;"
+        />
+        {% else %}
+        <span style="color: blue;">None</span>
+        {% endif %}
+    {% endif %}
+
+    <label for="image">Image:</label>
+    <input type="file" name="image" id="image" accept="image/*" />
+
+    <button type="submit">Submit</button>
+    </form>
+
+{% endblock %}
