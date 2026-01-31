@@ -1,17 +1,27 @@
 const { Galaxy } = require("../models");
 
-// Show all resources
+/* -------------------------------------------------------------------------- */
+/*                              GET All Galaxies                              */
+/* -------------------------------------------------------------------------- */
 const index = async (_req, res) => {
     try {
         const galaxies = await Galaxy.findAll();
-        return res.status(200).json(galaxies);
+        // Use the Express built-in content negotiaion to properly return
+        return res.format({
+            "application/json": () => res.json(galaxies),
+            "text/html": () =>
+                res.render("galaxies/index.html.twig", { galaxies }),
+            default: () => res.status(406).send("Not Acceptable"),
+        });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Show a single resource
+/* -------------------------------------------------------------------------- */
+/*                             GET A Galaxy By ID                             */
+/* -------------------------------------------------------------------------- */
 const show = async (req, res) => {
     try {
         const galaxy = await Galaxy.findByPk(req.params.id);
@@ -19,46 +29,108 @@ const show = async (req, res) => {
             return res.status(404).json({ message: "Galaxy not found" });
 
         const stars = await galaxy.getStars();
-        return res.status(200).json({ galaxy, stars });
+
+        // Use the Express built-in content negotiaion to properly return
+        return res.format({
+            "application/json": () => res.json({ galaxy, stars }),
+            "text/html": () =>
+                res.render("galaxies/individual.html.twig", { galaxy }),
+            default: () => res.status(406).send("Not Acceptable"),
+        });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Create a new resource
+/* -------------------------------------------------------------------------- */
+/*                            POST Create A Galaxy                            */
+/* -------------------------------------------------------------------------- */
 const create = async (req, res) => {
     try {
-        const galaxy = await Galaxy.create(req.body);
-        return res.status(201).json(galaxy);
+        const galaxy = await Galaxy.create({
+            ...req.body,
+            image: req.file?.filename ?? null,
+        });
+
+        // Use the Express built-in content negotiaion to properly return
+        return res.format({
+            "application/json": () => res.json(galaxy),
+            "text/html": () => res.redirect(`/galaxies/${galaxy.id}`),
+            default: () => res.status(406).send("Not Acceptable"),
+        });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Update an existing resource
+/* -------------------------------------------------------------------------- */
+/*                             PUT Update A Galaxy                            */
+/* -------------------------------------------------------------------------- */
 const update = async (req, res) => {
     try {
-        const galaxy = await Galaxy.update(req.body, {
-            where: {
-                id: req.params.id,
+        const existing = await Galaxy.findByPk(req.params.id);
+        if (!existing)
+            return res.status(404).json({ message: "Galaxy not found" });
+
+        // Keep existing image unless a new file was uploaded
+        const image = req.file?.filename ?? existing.image ?? null;
+
+        const galaxy = await Galaxy.update(
+            { ...req.body, image: image },
+            {
+                where: {
+                    id: req.params.id,
+                },
             },
+        );
+
+        // Use the Express built-in content negotiaion to properly return
+        return res.format({
+            "application/json": () => res.json(galaxy),
+            "text/html": () => res.redirect(`/galaxies/${req.params.id}`),
+            default: () => res.status(406).send("Not Acceptable"),
         });
-        return res.status(200).json(galaxy);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
 
-// Remove a single resource
+/* -------------------------------------------------------------------------- */
+/*                               DELETE A Galaxy                              */
+/* -------------------------------------------------------------------------- */
 const remove = async (req, res) => {
     try {
         const result = await Galaxy.destroy({
             where: req.params,
         });
-        return res.status(204).json(result);
+
+        // Use the Express built-in content negotiaion to properly return
+        return res.format({
+            "application/json": () => res.json(result),
+            "text/html": () => res.redirect(`/planets/`),
+            default: () => res.status(406).send("Not Acceptable"),
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+/* -------------------------------------------------------------------------- */
+/*                           New Form Route for Twig                          */
+/* -------------------------------------------------------------------------- */
+const form = async (req, res) => {
+    try {
+        if (req.params.id) {
+            const galaxy = await Galaxy.findByPk(req.params.id);
+            if (!galaxy) return res.render("galaxies/form.html.twig");
+            return res.render("galaxies/form.html.twig", { galaxy });
+        } else {
+            return res.render("galaxies/form.html.twig");
+        }
     } catch (err) {
         console.error(err);
         return res.status(500).json({ message: "Internal server error" });
@@ -66,4 +138,4 @@ const remove = async (req, res) => {
 };
 
 // Export all controller actions
-module.exports = { index, show, create, update, remove };
+module.exports = { index, show, create, update, remove, form };
