@@ -14,6 +14,12 @@ router.get(`/`, planetCtlr.index);
 // curl -X POST -H "Content-Type: application/json" -d '{"name":"Earth Dues","mass":123456,"size":10033,"isGasGiant":false,"description":"Habitable planet"}' http://localhost:3000/planets
 router.post(`/`, planetCtlr.create);
 
+// New routes for Twig templates
+router.get(`/new`, planetCtlr.form);
+router.get(`/:id/edit`, planetCtlr.form);
+router.get(`/:id/delete`, planetCtlr.remove);
+router.post(`/:id`, planetCtlr.update);
+
 // curl http://localhost:3000/planets/3
 router.get(`/:id`, planetCtlr.show);
 

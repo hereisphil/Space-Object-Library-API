@@ -1,18 +1,50 @@
 // Load in our Express framework
 const express = require(`express`);
 
+const twig = require("twig");
+
 // Create a new Express instance called "app"
 const app = express();
 
-// allow JSON body requests
+// For HTML form POSTs
+app.use(
+    express.urlencoded({
+        extended: true,
+        inflate: true,
+        limit: "1mb",
+        parameterLimit: 5000,
+        type: "application/x-www-form-urlencoded",
+    }),
+);
+
+// For JSON API requests
 app.use(express.json());
+
+// Add the following TWO lines to enable file uploads
+const fileUpload = require("express-fileupload");
+app.use(fileUpload());
+
+app.set("view engine", twig);
+app.set("twig options", {
+    allowAsync: true,
+    strict_variables: false,
+});
+app.set("views", __dirname + "/templates");
 
 // Load in our RESTful routers
 const routers = require("./routers/index.js");
 
 // Home page welcome middleware
 app.get("/", (_req, res) => {
-    res.status(200).send("Welcome to Star Tracker Library");
+    // res.status(200).send("Welcome to Star Tracker Library");
+    res.render("views/index.html.twig", {
+        fname: "Phillip",
+        lname: "Cantu",
+        contacts: [
+            { fname: "Joe", lname: "Dirt", age: 40 },
+            { fname: "Jane", lname: "Dirt", age: 20 },
+        ],
+    });
 });
 
 // Register our RESTful routers with our "app"

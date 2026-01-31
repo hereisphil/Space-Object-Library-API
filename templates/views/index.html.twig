@@ -1,0 +1,14 @@
+{% extends "layouts/_default.html.twig" %}
+
+{% block main %}
+<h1>Hello World!</h1>
+<p>Welcome {{ fname }} {{ lname }}!</p>
+
+<ul>
+    {% for contact in contacts %}
+        {% if contact.age > 21 %}
+            <li>{{contact.fname|upper }} {{contact.lname|lower }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endblock %}

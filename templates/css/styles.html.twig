@@ -1,0 +1,165 @@
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        background-color: #f5f7fa;
+        color: #222;
+        line-height: 1.6;
+        height: 100vh;
+    }
+
+    main {
+        flex: 1;
+        width: 100%;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    h1,
+    h2,
+    h3 {
+        margin-bottom: 1rem;
+        color: #1e293b;
+    }
+
+    a {
+        text-decoration: none;
+        color: #2563eb;
+        font-weight: 500;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Action icon base */
+    .actions a {
+        color: #475569;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    /* View (eye) hover */
+    .actions a.view:hover {
+        color: #2563eb;
+        transform: scale(1.15);
+    }
+
+    /* Edit hover */
+    .actions a.edit:hover {
+        color: #16a34a;
+        transform: scale(1.15);
+    }
+
+    /* Delete hover */
+    .actions a.delete:hover {
+        color: #ef4444;
+        transform: scale(1.15);
+    }
+
+    /* Back hover */
+    .actions a.back:hover {
+        color: #000;
+        transform: scale(1.15);
+    }
+
+    /* Smooth hover feel */
+    .actions svg {
+        transition: all 0.2s ease;
+    }
+
+    /* Form Styles */
+    form {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    /* Labels */
+    form label {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 0.95rem;
+    }
+
+    /* Inputs & textarea */
+    form input[type="text"],
+    form input[type="number"],
+    form textarea {
+        margin-top: 0.4rem;
+        padding: 0.6rem 0.75rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 0.95rem;
+        font-family: inherit;
+        background-color: #f8fafc;
+        transition:
+            border 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+    /* Focus state */
+    form input:focus,
+    form textarea:focus {
+        outline: none;
+        border-color: #2563eb;
+        background: white;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+    }
+
+    /* Textarea */
+    form textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    #gas-giant {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    /* Submit button */
+    form button {
+        margin-top: 1rem;
+        padding: 0.7rem 1rem;
+        border: none;
+        border-radius: 6px;
+        background-color: #1e293b;
+        color: white;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition:
+            background 0.2s ease,
+            transform 0.05s ease,
+            box-shadow 0.2s ease;
+    }
+
+    /* Button hover */
+    form button:hover {
+        background-color: #0f172a;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Button press */
+    form button:active {
+        transform: translateY(1px);
+    }
+</style>
