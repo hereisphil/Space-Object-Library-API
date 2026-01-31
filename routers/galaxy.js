@@ -1,18 +1,41 @@
-// Load in Express framework
 const express = require(`express`);
-
-// Load in our controller/action instances
 const galaxyCtlr = require(`../controllers/galaxy.js`);
-
-// Create a new Router instance and call it "router"
 const router = new express.Router();
-
-// RESTful resource mappings
-// curl http://localhost:3000/galaxies
+// Get all galaxies
 router.get(`/`, galaxyCtlr.index);
 
-// curl -X POST -H "Content-Type: application/json" -d '{"name":"Milky Way Tres","size":100000,"description":"Spiral galaxy containing Earth"}' http://localhost:3000/galaxies
-router.post(`/`, galaxyCtlr.create);
+/* -------------------------------------------------------------------------- */
+/*                        Using Multer for File Uploads                       */
+/* -------------------------------------------------------------------------- */
+// Multer documentation: https://www.npmjs.com/package/multer
+const multer = require("multer");
+const path = require("path");
+const storage = multer.diskStorage({
+    destination: function (_req, _file, cb) {
+        cb(null, "public/uploads/galaxies");
+    },
+    filename: function (_req, file, cb) {
+        // CLEAN UP the uploaded filename
+        const nameWithoutExt = path.parse(file.originalname).name;
+        const ext = path.extname(file.originalname);
+        const cleanName = nameWithoutExt
+            .trim()
+            .replace(/[^\w-]/g, "")
+            .replace(/\s+/g, "-");
+        const uniqueFilename = `${Date.now()}-${cleanName}${ext}`;
+
+        cb(null, uniqueFilename);
+    },
+});
+const upload = multer({ storage });
+
+router.post(`/`, upload.single("image"), galaxyCtlr.create);
+
+// New routes for Twig templates
+router.get(`/new`, galaxyCtlr.form);
+router.get(`/:id/edit`, galaxyCtlr.form);
+router.get(`/:id/delete`, galaxyCtlr.remove);
+router.post(`/:id`, upload.single("image"), galaxyCtlr.update);
 
 // curl http://localhost:3000/galaxies/3
 router.get(`/:id`, galaxyCtlr.show);
