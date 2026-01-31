@@ -1,0 +1,49 @@
+{% extends "layouts/_default.html.twig" %}
+
+{% block main %}
+    {% if galaxy is defined %}
+        <h1 style="margin-bottom: 1.5rem;">Edit Galaxy {{ galaxy.name }}</h1>
+        <form action="/galaxies/{{ galaxy.id }}" method="POST" enctype="multipart/form-data">
+    {% else %}
+        <h1 style="margin-bottom: 1.5rem;">Create New Galaxy</h1>
+        <form action="/galaxies" method="POST" enctype="multipart/form-data">
+    {% endif %}
+
+    {% if galaxy is defined %}
+        <label for="name">Name: </label><input type="text" name="name" id="name" value="{{ galaxy.name }}" required />
+    {% else %}
+        <label for="name">Name: </label><input type="text" name="name" id="name" required />
+    {% endif %}
+    
+    {% if galaxy is defined %}
+        <label for="size">Size: </label><input type="number" name="size" id="size" min="0" max="2147483647" step="1" value="{{ galaxy.size}}" required />
+    {% else %}
+        <label for="size">Size: </label><input type="number" name="size" id="size" min="0" max="2147483647" step="1" required />
+    {% endif %}
+    
+    {% if galaxy is defined %}
+        <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" required>{{ galaxy.description }}</textarea>
+    {% else %}
+        <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" required></textarea>
+    {% endif %}
+
+    {% if galaxy is defined %}
+    <p style="font-weight: bold;">Current Image:</p>
+        {% if galaxy.image %}
+        <img
+            src="/uploads/galaxies/{{ galaxy.image }}"
+            alt="{{ galaxy.name }}"
+            style="max-width: 300px; height: auto; border-radius: 8px;"
+        />
+        {% else %}
+        <span style="color: blue;">None</span>
+        {% endif %}
+    {% endif %}
+
+    <label for="image">Image:</label>
+    <input type="file" name="image" id="image" accept="image/*" />
+
+    <button type="submit">Submit</button>
+    </form>
+
+{% endblock %}
