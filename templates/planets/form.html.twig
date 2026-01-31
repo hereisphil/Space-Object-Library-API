@@ -37,18 +37,22 @@
     {% endif %}
     
     {% if planet is defined %}
-        <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" value="{{ planet.description }}" required></textarea>
+        <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" required>{{ planet.description }}</textarea>
     {% else %}
         <label for="description">Description: </label><textarea rows="4" cols="50" name="description" id="description" required></textarea>
     {% endif %}
 
     {% if planet is defined %}
-        <p>Current Image:</p>
+    <p style="font-weight: bold;">Current Image:</p>
+        {% if planet.image %}
         <img
             src="/uploads/planets/{{ planet.image }}"
             alt="{{ planet.name }}"
             style="max-width: 300px; height: auto; border-radius: 8px;"
         />
+        {% else %}
+        <span style="color: blue;">None</span>
+        {% endif %}
     {% endif %}
 
     <label for="image">Image:</label>

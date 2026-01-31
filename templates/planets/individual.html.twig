@@ -30,6 +30,17 @@
         </li>
     </ul>
 
+    <p style="font-weight: bold;">Current Image:</p>
+    {% if planet.image %}
+        <img
+            src="/uploads/planets/{{ planet.image }}"
+            alt="{{ planet.name }}"
+            style="max-width: 300px; height: auto; border-radius: 8px;"
+        />
+    {% else %}
+    <span style="color: blue;">None</span>
+    {% endif %}
+
     <div class="actions" style="margin-top: 1rem; display: flex; gap: 1rem;">
         <a href="/planets" class="back">
             <?xml version="1.0" encoding="utf-8"?>

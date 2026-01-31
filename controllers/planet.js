@@ -74,11 +74,21 @@ const create = async (req, res) => {
 /* -------------------------------------------------------------------------- */
 const update = async (req, res) => {
     try {
-        const planet = await Planet.update(req.body, {
-            where: {
-                id: req.params.id,
+        const existing = await Planet.findByPk(req.params.id);
+        if (!existing)
+            return res.status(404).json({ message: "Planet not found" });
+
+        // Keep existing image unless a new file was uploaded
+        const image = req.file?.filename ?? existing.image ?? null;
+
+        const planet = await Planet.update(
+            { ...req.body, image: image },
+            {
+                where: {
+                    id: req.params.id,
+                },
             },
-        });
+        );
 
         // Use the Express built-in content negotiaion to properly return
         return res.format({
