@@ -5,7 +5,7 @@
         <h1 style="margin-bottom: 1.5rem;">Edit Star {{ star.name }}</h1>
         <form action="/stars/{{ star.id }}" method="POST" enctype="multipart/form-data">
     {% else %}
-        <h1 style="margin-bottom: 1.5rem;">Create New Planet</h1>
+        <h1 style="margin-bottom: 1.5rem;">Create New Star</h1>
         <form action="/stars" method="POST" enctype="multipart/form-data">
     {% endif %}
 
