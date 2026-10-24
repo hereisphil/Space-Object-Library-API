@@ -72,13 +72,3 @@ curl -X POST -H "Content-Type: application/json" \
   -d '{"name":"Earth","mass":123456,"size":10033,"isGasGiant":false,"description":"Habitable planet"}' \
   http://localhost:3000/planets
 ```
-
----
-
-## 👋 Author
-
-Hi! I’m Phillip Cantu, a current [Full Sail University](https://www.fullsail.edu/) web development student, _expected graduation February 2027_, and a [4Geeks Academy Full Stack](https://www.phillipcantu.com/certificate.pdf) bootcamp graduate.
-
-- **GitHub:** [hereisphil](https://github.com/hereisphil)
-- **LinkedIn:** [phillipcantu](https://www.linkedin.com/in/phillipcantu/)
-- **Email:** [thereisphil@gmail.com](mailto:thereisphil@gmail.com)
